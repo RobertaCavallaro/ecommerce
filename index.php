@@ -79,7 +79,7 @@ session_start();
       <form class="form-inline">
         <input id="custom-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search"
           aria-label="Search">
-        <button class="btn btn-warning my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-warning my-2 my-sm-0" id="searchButton" type="submit">Search</button>
       </form>
     </div>
   </section>
@@ -220,153 +220,70 @@ session_start();
             <label class="form-check-label" for="winter">Winter</label>
           </div>
         </div>
-        <!-- Color -->
-        <div class="form-group">
-          <label for="color">Color:</label><br>
-          <div class="color-options">
-            <span class="color-option" style="background-color: black;"></span>
-            <span class="color-option" style="background-color: blue;"></span>
-            <span class="color-option" style="background-color: green;"></span>
-            <span class="color-option" style="background-color: red;"></span>
-            <span class="color-option" style="background-color: yellow;"></span>
-            <span class="color-option" style="background-color: orange;"></span>
+          Copied!
+          <!-- Price Range -->
+          <div class="form-group">
+              <label for="price-range">Price Range:</label><br>
+              <input type="range" class="form-control-range" id="price-range" min="40" max="400" value="150">
+              <span>$10</span>
+              <span style="float: right;">$400</span>
+              <!-- Price Display -->
+              <span id="price-display" style="padding-left: 30%">$150</span> <!-- Added element to display the slider value -->
           </div>
-          <div class="color-options">
-            <span class="color-option" style="background-color: pink;"></span>
-            <span class="color-option" style="background-color: purple;"></span>
-            <span class="color-option" style="background-color: brown;"></span>
-            <span class="color-option" style="background-color: cyan;"></span>
-            <span class="color-option" style="background-color: magenta;"></span>
-            <span class="color-option" style="background-color: silver;"></span>
-          </div>
-        </div>
-
-        <!-- Price Range -->
-        <div class="form-group">
-          <label for="price-range">Price Range:</label><br>
-          <input type="range" class="form-control-range" id="price-range" min="10" max="400" value="10">
-          <span>$10</span>
-          <span style="float: right;">$400</span>
-        </div>
-        <button class="btn btn-primary">Apply Filters</button>
+        <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
       </div>
     </aside>
 
-    <!-- Products Section -->
-    <div id="products" class="col-md-9">
-      <!-- Row for Product 1 and Product 2 -->
-      <div class="row">
-        <!-- Column for Product 1 -->
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="images/tent.jpg" class="card-img-top" alt="Camping Tent">
-            <div class="card-body">
-              <h5 class="card-title">Camping Tent</h5>
-              <p class="card-text">Price: $150</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              (74)
+      <!-- Products Section -->
+      <div id="products" class="col-md-9">
+          <?php
+          $conn = new mysqli($servername, $username, $password, $dbname, $port);
+          $query = "SELECT * FROM products";
+          $result = $conn->query($query);
 
-              <p class="card-text">Quantity:
-              <div class="quantity-input d-flex">
-                <button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>
-                <input type="text" class="form-control quantity" value="1">
-                <button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>
-              </div>
-              </p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
-        <!-- Column for Product 2 -->
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="images/backpag.jpg" class="card-img-top" alt="backpack">
-            <div class="card-body">
-              <h5 class="card-title">Backpack</h5>
-              <p class="card-text">Price: $50</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              (74)
+          if ($result->num_rows > 0) {
+              $counter = 0; // Initialize a counter
+              echo '<div class="row product-row">'; // Start the first row
 
-              <p class="card-text">Quantity:
-              <div class="quantity-input d-flex">
-                <button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>
-                <input type="text" class="form-control quantity" value="1">
-                <button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>
-              </div>
-              </p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
+              while ($row = $result->fetch_assoc()) {
+                  if ($counter % 3 == 0 && $counter != 0) {
+                      echo '</div><div class="row product-row">'; // Close the current row and start a new one every 3 products
+                  }
+
+                  echo '<div class="col-md-4 mb-4 product-column">'; // Each product occupies one third of the row
+                  echo '<div class="card product-card" data-name="'
+                      .$row['name'].'" data-description="' .$row['description'].
+                      '" data-season="' .$row['season'].'" data-gender="' .$row['gender'].'"
+                      data-price="' .$row['price'].'">';
+                  echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="' . $row['name'] . '">';
+                  echo '<div class="card-body">';
+                  echo '<h5 class="card-title">' . $row['name'] . '</h5>';
+                  echo '<p class="card-text">Price: $' . $row['price'] . '</p>';
+                  echo '<p class="card-text">Quantity:';
+                  echo '<div class="quantity-input d-flex">';
+                  echo '<button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>';
+                  echo '<input type="text" class="form-control quantity" value="1">';
+                  echo '<button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>';
+                  echo '</div>';
+                  echo '</p>';
+                  echo '<a href="#" class="btn btn-primary">Add to Cart</a>';
+                  echo '</div>'; // Close card-body
+                  echo '</div>'; // Close card
+                  echo '</div>'; // Close col-md-4
+
+                  $counter++; // Increment the counter
+              }
+
+              echo '</div>'; // Close the last row
+          } else {
+              echo "No products found!";
+          }
+          ?>
       </div>
-
-      <!-- Row for Product 3 and Product 4 -->
-      <div class="row">
-        <!-- Column for Product 3 -->
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="images/luce.jpg" class="card-img-top" alt="headlamp">
-            <div class="card-body">
-              <h5 class="card-title">Headlamp</h5>
-              <p class="card-text">Price: $40</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              (74)
-
-              <p class="card-text">Quantity:
-              <div class="quantity-input d-flex">
-                <button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>
-                <input type="text" class="form-control quantity" value="1">
-                <button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>
-              </div>
-              </p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
-        <!-- Column for Product 4 -->
-        <div class="col-md-4 mb-4">
-          <div class="card">
-            <img src="images/trekking.PNG" class="card-img-top" alt="poles">
-            <div class="card-body">
-              <h5 class="card-title">Trail Trekking Poles</h5>
-              <p class="card-text">Price: $60</p>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              (74)
-
-              <p class="card-text">Quantity:
-              <div class="quantity-input d-flex">
-                <button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>
-                <input type="text" class="form-control quantity" value="1">
-                <button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>
-              </div>
-              </p>
-              <a href="#" class="btn btn-primary">Add to Cart</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Load More Button -->
   <div class="button-container">
-    <button class="btn btn-primary load-more">Load More</button>
+    <button class="btn btn-primary load-more" id="load-more">Load More</button>
   </div>
 
 

@@ -22,7 +22,10 @@ html {
 }
 
 .footer {
-background-color: rgb(208, 237, 211);
+  width: 100%;        /* Ensures it covers full width */
+  margin: 0;          /* Removes any outer margin */
+  padding: 0;         /* Removes any inner padding */
+  background-color: rgb(208, 237, 211);
 }
 /* CSS to increase the size of the cart icon */
 .nav-link .fas.fa-shopping-cart {
@@ -215,4 +218,40 @@ textarea {
   font-size: 1.1em; /* Slightly larger paragraph text */
   line-height: 1.5; /* Improved line spacing for readability */
   margin-top: 10px; /* Space after the header */
+}
+
+.product-card {
+  height: 100%; /* Make sure all cards in the same row are of equal height */
+  display: flex;
+  flex-direction: column; /* Stack the content vertically */
+}
+.product-card img {
+  width: 100%; /* Make images fill the card width */
+  height: 200px; /* Fix the image height */
+  object-fit: cover; /* Ensure the image covers the area without distorting aspect ratio */
+}
+.card-body {
+  flex: 1; /* Allows the card body to expand to fill available space */
+}
+.card-title, .card-text {
+  min-height: 50px; /* Ensures text areas have a consistent height */
+}
+.row {
+  margin-bottom: 20px; /* Adds bottom margin for spacing between rows */
+}
+.col-md-4 {
+  padding-right: 15px; /* Right padding for the column */
+  padding-left: 15px; /* Left padding for the column */
+  float: left;
+}
+
+.quantity-input {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: center; /* Center the contents horizontally */
+}
+.quantity-input input {
+  text-align: center; /* Center the text inside the input box */
+  width: 50px; /* Set a fixed width for the input box */
+  margin: 0 10px; /* Add horizontal margin */
 }
