@@ -1,0 +1,83 @@
+CSS Style Guide
+
+General Styles
+Body:
+Font Family: Arial, sans-serif.
+Margin: 0.
+Padding: 0.
+Typography
+Bold Text:
+Use the .bold class for bold text.
+Sidebar Styles
+Sidebar:
+
+Align items to the flex-end.
+Sidebar Label:
+
+Display labels as block elements.
+Sidebar Labels for Specific Inputs:
+
+Apply bold font weight to labels for inputs like price range, gender, color, and season.
+Footer Styles
+Footer:
+Background color: RGB(208, 237, 211).
+Colors
+Checked Star:
+
+Apply color #FFD700 for checked stars.
+Color Options:
+
+Display color options in a flex container.
+Each color option should have a width and height of 20px.
+Apply a 1px solid #ccc border to color options.
+Maintain a 5px margin-right between color options.
+Button Container
+Button Container:
+Display flex.
+Justify content center.
+Align items center.
+Margin-top: 20px.
+Margin-bottom: 100px.
+Foto
+Foto:
+Background color: RGB(208, 237, 211).
+Padding-top: 10px.
+Carousel
+Carousel Item Images:
+
+Maintain a margin of 10px around carousel item images.
+Carousel Caption Heading:
+
+Set color to black for better visibility.
+Card Styles
+Card Body:
+Center-align text within card bodies.
+Navbar Styles
+Navbar:
+
+Background color: RGB(208, 237, 211).
+Navbar Navigation:
+
+Margin-left: 190px.
+Quantity Input
+Quantity Input:
+
+Display flex.
+Align items center.
+Minus Button:
+
+Margin-right: 5px.
+Plus Button:
+
+Margin-left: 5px.
+Season Text
+Season Text:
+Apply bold font weight.
+Center-align text.
+Set color to black.
+Remove text decoration.
+Change cursor to pointer on hover.
+Buttons
+Buttons:
+Background color: RGB(208, 237, 211).
+Text color: Black.

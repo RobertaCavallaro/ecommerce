@@ -1,0 +1,218 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.season-text {
+  font-weight: bold;
+  text-align: center;
+}
+
+
+.sidebar {
+  align-items: flex-end;
+}
+
+.nav-link {
+    font-weight: bold;
+}
+
+.sidebar label {
+  display: block;
+
+}
+
+.footer {
+background-color: rgb(208, 237, 211);
+}
+/* CSS to increase the size of the cart icon */
+.nav-link .fas.fa-shopping-cart {
+  font-size: 50px; /* Adjust the font size as needed */
+}
+
+
+
+.sidebar label[for="price-range"],
+.sidebar label[for="gender"],
+.sidebar label[for="color"],
+.sidebar label[for="season"]    {
+font-weight: bold;
+}
+
+.fa-star.checked {
+  color: #FFD700;
+}
+
+.color-options {
+  display: flex;
+}
+
+.color-option {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  margin-top: 20px; 
+  margin-bottom: 100px;
+}
+
+.foto{
+  background-color: rgb(208, 237, 211);
+  padding-top: 10px;
+  
+}
+
+.carousel-item .col-md-4 img {
+  margin: 10px; /* Adjust the margin value as needed */
+}
+
+
+.card-body {
+  text-align: center; /* Center align text within cards */
+}
+
+.navbar {
+  background-color: #f8f9fa; /* Light gray background, adjust color as needed */
+  display: flex; /* Ensures navbar uses flexbox */
+  justify-content: space-between; /* Separates left and right nav items */
+  align-items: center; /* Aligns items vertically */
+}
+
+.nav-link {
+  white-space: nowrap; /* Prevents text wrapping */
+  margin-right: 15px; 
+}
+
+.navbar-nav {
+  flex-direction: row; /* Ensures nav items are in a row */
+  width: 100%; /* Full width to spread out nav items */
+  justify-content: space-around; /* Distributes space evenly around items */
+}
+.nav-item:last-child .nav-link {
+  margin-right: 0; /* Removes margin from the last item to fit better */
+}
+.nav-item i {
+  color: brown; /* Color for the cart icon */
+}
+.navbar-brand {
+  font-weight: bold; /* Makes the brand/logo text bolder */
+  color: #007bff; /* Bootstrap primary color for the brand */
+}
+.navbar-nav.ml-auto {
+  margin-left: 60% !important; /* Pushes the menu to the right */
+  align-items: center; /* Centers the items vertically within the navbar */
+}
+.carousel-caption h5 {
+  color: black; /* Change the color to black */
+}
+
+.quantity-input {
+  display: flex;
+  align-items: center;
+}
+
+.minus-btn {
+  margin-right: 5px;
+}
+
+.plus-btn {
+  margin-left: 5px;
+}
+
+.season-text {
+  color: black; /* Set the text color to black */
+  text-decoration: none; /* Remove underline from the text */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.btn{
+  background-color: rgb(208, 237, 211);
+  color: black;
+}
+
+/* Adjustments for larger screens */
+@media (min-width: 992px) {
+  .navbar-nav {
+    justify-content: space-evenly; /* Adjust alignment for large screens */
+  }
+  .nav-item {
+    margin: 0 10px; /* Adds some horizontal spacing between items */
+  }
+  .navbar-nav.ml-auto {
+    margin-left: 15%!important; /* Resets the margin for mobile view */
+    align-items: fixed-end; 
+  }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 991px) {
+  .navbar-toggler {
+    display: block; /* Ensures the toggle button is visible on smaller screens */
+  }
+  .navbar-nav {
+    background-color: #f8f9fa; /* Optional: background color for dropdown menu */
+  }
+  .nav-link {
+    padding: 8px 15px; /* Adjust padding for dropdown items */
+  }
+  .navbar-nav.ml-auto {
+    margin-left: 0%!important; /* Resets the margin for mobile view */
+    align-items: center; 
+  }
+}
+
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column; /* Stacks the navbar items vertically on smaller screens */
+  }
+
+  .navbar-nav.ml-auto {
+    margin-left: 0!important; /* Resets the margin for mobile view */
+    align-items: baseline; 
+  }
+  #custom-search-bar {
+    width: 250px !important; /* adjust this value as needed */
+  }
+}
+
+#custom-search-bar {
+  width: 500pt; /* Adjust as needed */
+}
+
+.modal-header, .modal-footer {
+  border-bottom: none; /* Removes default borders */
+  border-top: none;
+}
+.modal-content {
+  border-radius: 8px; /* Rounded corners for modal */
+}
+.modal-body {
+  padding: 20px; /* More padding for the content */
+}
+.form-control, textarea {
+  margin-top: 10px; /* Adds spacing between form fields */
+}
+.modal-body .btn-primary {
+  margin-top: 15px; /* Space above the submit button */
+  width: 100%; /* Makes the button full width */
+  padding: 10px; /* Larger click area and better visual */
+}
+textarea {
+  resize: none; /* Prevents resizing the textarea */
+}
+
+.modal-body h2 {
+  color: #0056b3; /* Thematic color for headers */
+}
+.modal-body p {
+  font-size: 1.1em; /* Slightly larger paragraph text */
+  line-height: 1.5; /* Improved line spacing for readability */
+  margin-top: 10px; /* Space after the header */
+}
