@@ -60,6 +60,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function rearrangeProducts() {
+        const container = document.getElementById('products'); // This is the main container where product rows are placed.
+        const allCards = Array.from(document.querySelectorAll('.product-card')); // Get all product cards.
+        const visibleCards = allCards.filter(card => card.style.display !== 'none'); // Filter out visible cards.
+
+        container.innerHTML = ''; // Clear the existing content.
+        let newRow = createRow(); // Create the first row.
+        container.appendChild(newRow);
+
+        visibleCards.forEach((card, index) => {
+            if (index % 3 === 0 && index !== 0) { // Every 3 cards, start a new row.
+                newRow = createRow();
+                container.appendChild(newRow);
+            }
+            const column = createColumn(); // Create a new column for each card.
+            column.appendChild(card);
+            newRow.appendChild(column);
+        });
+    }
+
+    function createRow() {
+        const row = document.createElement('div');
+        row.className = 'row product-row';
+        return row;
+    }
+
+    function createColumn() {
+        const column = document.createElement('div');
+        column.className = 'col-md-4 mb-4 product-column';
+        return column;
+    }
+
+
     btnApplyFilters.addEventListener('click', function() {
         // Gather checked genders
         const genders = [];
@@ -88,7 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 column.style.display = 'none'; // Hide each column initially
             });
         });
-
+        const container = document.getElementById('products');
+        container.innerHTML = ''; // Clear the existing content.
+        let newRow = createRow(); // Create the first row.
+        container.appendChild(newRow);
+        let index = 0;
         productCards.forEach(card => {
             const productGender = card.getAttribute('data-gender');
             const productSeason = card.getAttribute('data-season');
@@ -98,15 +135,18 @@ document.addEventListener('DOMContentLoaded', function() {
             let seasonMatch = seasons.length === 0 || seasons.includes(productSeason);
             let priceMatch = productPrice <= parseFloat(priceRange);
 
-
             if (genderMatch && seasonMatch && priceMatch) {
-                card.style.display = '';  // Show the card
-                card.closest('.product-column').style.display = ''; // Show the column of the matching card
-                card.closest('.product-row').style.display = '';
-            } else {
-                card.style.display = 'none';  // Hide the card
+                if (index % 3 === 0 && index !== 0) { // Every 3 cards, start a new row.
+                    newRow = createRow();
+                    container.appendChild(newRow);
+                }
+                const column = createColumn(); // Create a new column for each card.
+                column.appendChild(card);
+                newRow.appendChild(column);
+                index +=1;
             }
         });
+        rearrangeProducts();
     });
     const priceRange = document.getElementById('price-range');
     const priceDisplay = document.getElementById('price-display');
