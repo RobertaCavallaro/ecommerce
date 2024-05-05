@@ -261,7 +261,7 @@ session_start();
                   echo '<button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>';
                   echo '</div>';
                   echo '</p>';
-                  echo '<a href="#" class="btn btn-primary">Add to Cart</a>';
+                  echo '<a href="#" class="btn btn-primary add-to-cart-btn">Add to Cart</a>';
                   echo '</div>'; // Close card-body
                   echo '</div>'; // Close card
                   echo '</div>'; // Close col-md-4
@@ -350,6 +350,9 @@ session_start();
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+      var isLoggedIn = <?php echo isset($_SESSION['loggedin']) && $_SESSION['loggedin'] ? 'true' : 'false'; ?>;
+  </script>
 </body>
 
 </html>

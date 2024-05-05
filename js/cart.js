@@ -32,24 +32,27 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide all rows and columns initially
         const rows = document.querySelectorAll('.product-row'); // Assuming your products are wrapped in elements with class 'product-row'
         document.getElementById('load-more').style.display = 'none';
-        rows.forEach(row => {
-            row.style.display = 'none'; // Hide each row initially
-            const columns = row.querySelectorAll('.product-column'); // Assuming products are further organized in columns
-            columns.forEach(column => {
-                column.style.display = 'none'; // Hide each column initially
-            });
-        });
+        const container = document.getElementById('products');
+        container.innerHTML = ''; // Clear the existing content.
+        let newRow = createRow(); // Create the first row.
+        container.appendChild(newRow);
+        let index=0;
 
         productCards.forEach(card => {
             const name = card.getAttribute('data-name').toLowerCase();
             const description = card.getAttribute('data-description').toLowerCase();
             if (name.includes(searchValue) || description.includes(searchValue)) {
-                card.style.display = ''; // Show matching card
-                card.closest('.product-column').style.display = ''; // Show the column of the matching card
-                card.closest('.product-row').style.display = ''; // Show the row of the matching card
+                if (index % 3 === 0 && index !== 0) { // Every 3 cards, start a new row.
+                    newRow = createRow();
+                    container.appendChild(newRow);
+                }
+                const column = createColumn(); // Create a new column for each card.
+                column.appendChild(card);
+                newRow.appendChild(column);// Show the row of the matching card
                 hasMatch = true;
+                index +=1;
             } else {
-                card.style.display = 'none'; // Hide non-matching card
+                // Hide non-matching card
             }
         });
         if (hasMatch) {
@@ -179,6 +182,22 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('apply-filters').click();
         });
     });
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(event) {
+            if (!isLoggedIn) {
+                event.preventDefault();  // Prevent the cart operation
+                showLoginModal();        // Show login modal
+            } else {
+                // Proceed with adding to cart
+            }
+        });
+    });
+
+    function showLoginModal() {
+        // Code to display your login modal
+        $('#loginModal').modal('show'); // Example using Bootstrap modal
+    }
 
 });
 
