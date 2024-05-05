@@ -88,31 +88,26 @@ session_start();
   </div>
   <!-- Season Images Section -->
   <div id="planYourTrek" class="foto row">
-    <div class="col-md-3">
-      <img src="images/spring.jpg" alt="Spring" class="img-fluid">
-      <a href="spring.html" class="season-link">
-        <p class="season-text">Spring</p>
-      </a>
-    </div>
-    <div class="col-md-3">
-      <img src="images/summer.jpg" alt="Summer" class="img-fluid">
-      <a href="summer.html" class="season-link">
-        <p class="season-text">Summer</p>
-      </a>
-    </div>
-    <div class="col-md-3">
-      <img src="images/fall.jpg" alt="Autumn" class="img-fluid">
-      <a href="autumn.html" class="season-link">
-        <p class="season-text">Autumn</p>
-      </a>
-    </div>
-    <div class="col-md-3">
-      <img src="images/winter.jpg" alt="Winter" class="img-fluid">
-      <a href="winter.html" class="season-link">
-        <p class="season-text">Winter</p>
-      </a>
-    </div>
+      <div class="col-md-3 season-image" data-season="spring">
+          <img src="images/spring.jpg" alt="Spring" class="img-fluid clickable">
+          <p class="season-text">Spring</p>
+      </div>
+      <div class="col-md-3 season-image" data-season="summer">
+          <img src="images/summer.jpg" alt="Summer" class="img-fluid clickable">
+          <p class="season-text">Summer</p>
+      </div>
+      <div class="col-md-3 season-image" data-season="autumn">
+          <img src="images/fall.jpg" alt="Autumn" class="img-fluid clickable">
+          <p class="season-text">Autumn</p>
+      </div>
+      <div class="col-md-3 season-image" data-season="winter">
+          <img src="images/winter.jpg" alt="Winter" class="img-fluid clickable">
+          <p class="season-text">Winter</p>
+      </div>
   </div>
+
+
+
 
   <!-- Login Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"

@@ -122,4 +122,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listener to update display on slider change
     priceRange.addEventListener('input', updatePriceDisplay);
 
+    // Season images clickable
+    document.querySelectorAll('.season-image').forEach(imageDiv => {
+        imageDiv.addEventListener('click', function() {
+            const clickedSeason = this.getAttribute('data-season');
+            const allSeasons = ['summer', 'spring', 'autumn', 'winter']; // List all possible seasons
+
+            allSeasons.forEach(season => {
+                const checkbox = document.getElementById(season);
+                if (checkbox) {
+                    checkbox.checked = (season === clickedSeason); // Check only the clicked season, uncheck others
+                }
+            });
+
+            // Automatically click the apply filters button to update the results
+            document.getElementById('apply-filters').click();
+        });
+    });
+
 });
+
