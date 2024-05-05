@@ -16,6 +16,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 $totalPrice = 0;
+while ($row = $result->fetch_assoc()) {
+    $totalPrice += $row['quantity'] * $row['price'];
+}
+$result->data_seek(0);
 $conn -> close();
 //?>
 
@@ -51,10 +55,6 @@ $conn -> close();
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-shopping-cart" style="font-size: x-large;"> <span
-                                    id="cartItemCount">0</span></i></a>
-                </li>
                 <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="index.php"> Login </button>
@@ -95,9 +95,14 @@ $conn -> close();
 
     <?php endwhile; ?>
 
-    <button onclick="window.location.href='payment.php';">Order Now</button>
+    <div class="total-and-checkout">
+        <button onclick="window.location.href='payment.php';" class="btn btn-success">Order Now</button>
+        <span class="total-price">Total: $<?= number_format($totalPrice, 2) ?></span>
+    </div>
 
-
+    <script>
+        var isLoggedIn = <?php echo isset($_SESSION['loggedin']) && $_SESSION['loggedin'] ? 'true' : 'false'; ?>;
+    </script>
 
 </body>
 </html>
