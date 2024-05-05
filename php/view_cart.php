@@ -1,73 +1,104 @@
 <?php
-// Include necessary files and perform any required logic
-include 'php/connect.php'; // Assuming this file contains your database connection logic
+session_start();
+include 'connect.php'; // Assumes you have a connect.php file to handle database connection
 
-// Example of retrieving cart items from session or database
-$cartItems = []; // This should be replaced with actual logic to retrieve cart items
-
-// Example of processing form submission (updating cart, removing items, etc.)
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Process form data
-    // Example: Update cart quantities, remove items from cart, etc.
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
 }
 
-// Example of calculating total cost
-$totalCost = 0; // Initialize total cost variable
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
 
-foreach ($cartItems as $item) {
-    // Calculate total cost based on item prices and quantities
-    $totalCost += $item['price'] * $item['quantity'];
-}
-?>
+$query = "SELECT cart.product_id, products.name, products.description, products.price, cart.quantity, products.image_url FROM cart INNER JOIN products ON cart.product_id = products.product_id WHERE cart.customer_id  = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$totalPrice = 0;
+$conn -> close();
+//?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>View Cart - TrekkingTale</title>
-  <!-- Include necessary stylesheets and scripts -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Link to your custom CSS file -->
+    <script src="/js/cart.js"></script>
+
 </head>
+
 <body>
-  <h2>View Cart</h2>
-  <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <!-- Display cart items -->
-    <?php if (!empty($cartItems)) : ?>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($cartItems as $item) : ?>
-                    <tr>
-                        <td><?php echo $item['name']; ?></td>
-                        <td>$<?php echo $item['price']; ?></td>
-                        <td>
-                            <input type="number" name="quantity[<?php echo $item['id']; ?>]" value="<?php echo $item['quantity']; ?>">
-                        </td>
-                        <td>$<?php echo $item['price'] * $item['quantity']; ?></td>
-                        <td>
-                            <button type="submit" name="update" value="<?php echo $item['id']; ?>">Update</button>
-                            <button type="submit" name="remove" value="<?php echo $item['id']; ?>">Remove</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                <tr>
-                    <td colspan="3"><strong>Total</strong></td>
-                    <td colspan="2">$<?php echo $totalCost; ?></td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="submit" name="checkout">Checkout</button>
-    <?php else : ?>
-        <p>Your cart is empty.</p>
-    <?php endif; ?>
-  </form>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="../index.php">TrekkingTale</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.php">Shop Gear</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-shopping-cart" style="font-size: x-large;"> <span
+                                    id="cartItemCount">0</span></i></a>
+                </li>
+                <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="index.php"> Login </button>
+                    </li>
+                <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Hello, <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                        <!-- Display user's name -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.php">Logout</a> <!-- Logout button -->
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="cart-container">
+    <?php while ($row = $result->fetch_assoc()): ?>
+        <div class="cart-item">
+            <img src="/<?= htmlspecialchars($row['image_url']) ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+            <div class="details">
+                <h3><?= htmlspecialchars($row['name']) ?></h3>
+                <p><?= htmlspecialchars($row['description']) ?></p>
+                <p>Price: $<?= number_format($row['price'], 2) ?></p>
+                <!-- Quantity controls -->
+                <div class="quantity-controls">
+                    <button class="minus-btn" data-id="<?= $row['product_id'] ?>">-</button>
+                    <input type="text" class="quantity" value="<?= htmlspecialchars($row['quantity']) ?>">
+                    <button class="plus-btn" data-id="<?= $row['product_id'] ?>">+</button>
+                </div>
+                <p>Subtotal: $<?= number_format($row['quantity'] * $row['price'], 2) ?></p>
+                <!-- Delete item button -->
+                <button class="delete-btn" data-id="<?= $row['product_id'] ?>">Delete Item</button>
+            </div>
+        </div>
+
+    <?php endwhile; ?>
+
+    <button onclick="window.location.href='payment.php';">Order Now</button>
+
+
+
 </body>
 </html>
+<?php //$stmt->close(); ?>

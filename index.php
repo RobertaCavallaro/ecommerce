@@ -1,5 +1,5 @@
 <?php
-include 'php/connect.php';
+include 'php/table_initialize.php';
 session_start();
 ?>
 
@@ -14,7 +14,6 @@ session_start();
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="css/style.css"> <!-- Link to your custom CSS file -->
-  <link rel="stylesheet" href="path/to/cody-style-guide.css">
   <script src="/js/cart.js"></script>
 
 
@@ -50,7 +49,7 @@ session_start();
         </ul>
         <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
           <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-shopping-cart" style="font-size: x-large;"> <span
+            <a class="nav-link" href="php/view_cart.php"><i class="fas fa-shopping-cart" style="font-size: x-large;"> <span
                   id="cartItemCount">0</span></i></a>
           </li>
           <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
@@ -249,7 +248,7 @@ session_start();
                   echo '<div class="card product-card" data-name="'
                       .$row['name'].'" data-description="' .$row['description'].
                       '" data-season="' .$row['season'].'" data-gender="' .$row['gender'].'"
-                      data-price="' .$row['price'].'">';
+                      data-price="' .$row['price'].'" data-product-id="' .$row['product_id'].'">';
                   echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="' . $row['name'] . '">';
                   echo '<div class="card-body">';
                   echo '<h5 class="card-title">' . $row['name'] . '</h5>';

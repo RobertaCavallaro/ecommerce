@@ -255,3 +255,122 @@ textarea {
   width: 50px; /* Set a fixed width for the input box */
   margin: 0 10px; /* Add horizontal margin */
 }
+
+/* Cart container styling */
+.cart-container {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #ccc;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.cart-item img {
+  width: 100px; /* Set the image size */
+  height: auto;
+  margin-right: 20px;
+  border-radius: 5px;
+}
+
+.details h3 {
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.details p {
+  color: #666;
+  font-size: 14px;
+}
+
+.total {
+  font-size: 18px;
+  text-align: right;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 12px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cart-container {
+    width: 95%;
+    margin: 10px auto;
+  }
+
+  .cart-item {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .cart-item img {
+    margin-bottom: 10px;
+  }
+
+  .total {
+    text-align: center;
+  }
+}
+
+
+/*view cart design*/
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;  /* Adds space between the buttons and input */
+}
+
+.quantity-controls button {
+  width: 30px;  /* Initial width for the buttons */
+  height: 20px;  /* Initial height for the buttons */
+  background-color: #f0f0f0;  /* Light grey background */
+  border: 1px solid #ccc;  /* Subtle border */
+  cursor: pointer;  /* Cursor changes to pointer to indicate button */
+  padding: 0; /* Remove default padding */
+  line-height: 20px; /* Align text without default padding */
+  font-size: 14px; /* Suitable font size for small buttons */
+}
+
+.quantity-controls input {
+  width: 40px;  /* Initial width for the quantity input */
+  text-align: center;  /* Centers text in the input */
+  border: 1px solid #ddd;  /* Stylish border */
+  font-size: 14px;  /* Initial font size for the input text */
+}
+
+/* Responsive adjustments with a media query */
+@media (max-width: 600px) {
+  .quantity-controls button {
+    width: 25px;  /* Slightly smaller width for the buttons on smaller screens */
+    height: 18px;  /* Slightly smaller height for the buttons on smaller screens */
+    font-size: 12px; /* Smaller font size for readability on small devices */
+  }
+
+  .quantity-controls input {
+    width: 35px;  /* Slightly narrower input on smaller screens */
+    font-size: 12px;  /* Smaller font size for consistency */
+  }
+}
+
+

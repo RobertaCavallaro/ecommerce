@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
         input.value = newValue; // Set the new value in the input field
     }
 
+    if (isLoggedIn) {
+        fetchAndUpdateCartCount();
+    }
+
     // Add event listeners to all + and - buttons
     document.querySelectorAll('.quantity-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -24,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const productCards = document.querySelectorAll('.product-card');
     const searchButton = document.getElementById('searchButton');
     const btnApplyFilters = document.getElementById('apply-filters');
+    const cartItemCount = document.getElementById('cartItemCount');
 
     searchButton.addEventListener('click', function(event) {
         event.preventDefault();
@@ -51,8 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 newRow.appendChild(column);// Show the row of the matching card
                 hasMatch = true;
                 index +=1;
-            } else {
-                // Hide non-matching card
             }
         });
         if (hasMatch) {
@@ -190,9 +193,34 @@ document.addEventListener('DOMContentLoaded', function() {
                 showLoginModal();        // Show login modal
             } else {
                 // Proceed with adding to cart
+                const productId = this.parentElement.parentElement.getAttribute('data-product-id');
+                const quantity = this.parentElement.querySelector('.quantity').value; // This can be dynamic based on user input if needed
+                fetch('php/cart.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=add&productId=${productId}&quantity=${quantity}`
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        fetchAndUpdateCartCount();
+                    })
+                    .catch(error => console.error('Error:', error));
             }
         });
     });
+
+    // Function to fetch and update the cart item count
+    function fetchAndUpdateCartCount() {
+        fetch('php/cart.php?action=getItemCount')
+            .then(response => response.json())
+            .then(data => {
+                cartItemCount.textContent = data.count; // Assuming the response includes { count: X }
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
     function showLoginModal() {
         // Code to display your login modal
@@ -200,4 +228,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
+
+
+
+
 
