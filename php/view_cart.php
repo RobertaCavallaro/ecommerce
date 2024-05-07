@@ -34,6 +34,9 @@ $conn -> close();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css"> <!-- Link to your custom CSS file -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/js/cart.js"></script>
 
 </head>
@@ -72,6 +75,24 @@ $conn -> close();
         </div>
     </div>
 </nav>
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Iframe to load login.php -->
+                <iframe src="checkout.php" frameborder="0" style="width:100%; height:400px;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="cart-container">
     <?php while ($row = $result->fetch_assoc()): ?>
@@ -96,7 +117,8 @@ $conn -> close();
     <?php endwhile; ?>
 
     <div class="total-and-checkout">
-        <button onclick="window.location.href='payment.php';" class="btn btn-success">Order Now</button>
+        <button data-toggle="modal" data-target="#checkoutModal"
+                class="btn btn-success">Order Now</button>
         <span class="total-price">Total: $<?= number_format($totalPrice, 2) ?></span>
     </div>
 

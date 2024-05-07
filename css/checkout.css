@@ -1,0 +1,45 @@
+.bold {
+    font-weight: bold;
+}
+
+body {
+    padding: 20px;
+    background-color: #f8f9fa; /* Light grey background */
+}
+.container {
+    background: white; /* White background for the form area */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners for the form container */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+.header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #dee2e6; /* Light line under the header for separation */
+    margin-bottom: 20px;
+}
+h2 {
+    color: #495057; /* Dark grey color for headings */
+}
+.form-control, .btn {
+    margin-top: 10px;
+}
+.btn-primary {
+    background-color: #007bff; /* Blue button for actions */
+    border-color: #007bff;
+}
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover for better interaction */
+}
+.modal-title {
+    font-size: 24px; /* Larger text for modal title */
+}
+.form-group button {
+    margin-right: 15px; /* Space between buttons within the same form group */
+}
+#use-address-btn {
+    margin-bottom: 20px; /* 20px margin at the bottom of the first button */
+}
+/* Additional padding below the first form */
+.address-form {
+    margin-bottom: 10%; /* 30px margin at the bottom of the first form */
+}

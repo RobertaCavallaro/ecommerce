@@ -67,6 +67,7 @@ function createOrdersTable($conn)
             customer_id INT NOT NULL,
             order_date DATETIME NOT NULL,
             total_amount DECIMAL(10,2) NOT NULL,
+            payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
             FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
             )";
 // ... (more fields for shipping, billing, etc.)
@@ -75,6 +76,49 @@ function createOrdersTable($conn)
         echo "<script>console.log('Orders table created successfully');</script>";
     } else {
         echo "<script>console.log('Error creating Orders table: $conn->error .');</script>";
+    }
+
+}function createAddressTable($conn)
+{
+    $sql = "
+            CREATE TABLE IF NOT EXISTS addresses (
+                id INT(11) AUTO_INCREMENT PRIMARY KEY,
+                customer_id INT(11) NOT NULL,
+                fullname VARCHAR(255) NOT NULL,
+                address_line1 VARCHAR(255) NOT NULL,
+                address_line2 VARCHAR(255),
+                city VARCHAR(100) NOT NULL,
+                state VARCHAR(100) NOT NULL,
+                zip_code INT(11) NOT NULL,
+                country VARCHAR(100) NOT NULL,
+                FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
+            )";
+// ... (more fields for shipping, billing, etc.)
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>console.log('Address table created successfully');</script>";
+    } else {
+        echo "<script>console.log('Error creating Address table: $conn->error .');</script>";
+    }
+}
+
+function createOrderItems($conn)
+{
+    $sql = "CREATE TABLE IF NOT EXISTS order_items (
+            item_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+            order_id INT(11) NOT NULL,
+            product_id INT(11) NOT NULL,
+            quantity INT(11) NOT NULL,
+            price DECIMAL(10, 2) NOT NULL,
+            FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+            FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+        )";
+// ... (more fields for shipping, billing, etc.)
+
+    if ($conn->query($sql) === TRUE) {
+        echo "<script>console.log('Orders Items table created successfully');</script>";
+    } else {
+        echo "<script>console.log('Error creating Orders Items table: $conn->error .');</script>";
     }
 }
 
@@ -148,8 +192,10 @@ if ($conn->connect_error) {
 createProductsTable($conn);
 createCustomersTable($conn);
 createOrdersTable($conn);
-createProducts($conn);
 createCartTable($conn);
+createOrderItems($conn);
+createProducts($conn);
+createAddressTable($conn);
 
 // Close connection (optional, but good practice)
 $conn->close();
