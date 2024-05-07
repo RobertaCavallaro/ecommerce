@@ -19,6 +19,7 @@ $totalPrice = 0;
 while ($row = $result->fetch_assoc()) {
     $totalPrice += $row['quantity'] * $row['price'];
 }
+$_SESSION['total_amount'] = $totalPrice;
 $result->data_seek(0);
 $conn -> close();
 //?>

@@ -29,6 +29,7 @@ function displayAddressAndScroll(address) {
     if (addressDisplayElement) {
         addressDisplayElement.innerHTML = '<span class="bold">Selected Address:</span> ' + address;
         document.getElementById('addressNotify').textContent = "Payment";
+        document.getElementById('totalPrice').style.visibility = "";
         initializePayPalButtons();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {

@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['new_address'])) {
 }
 
 // Dummy total amount for the example
-$total_amount = 100.00; // This should be the total amount from the cart
+$total_amount = $_SESSION['total_amount']; // This should be the total amount from the cart
 
 // Dummy client-side implementation for PayPal
 $paypalClientId = 'ATxEnEoBxidA9z9SK_J_8SkR5rjcvWhFg-kmtSbaV7Ir44waIVtQ141SG-hItI9kbqGVwVS6A6LuJNMH'; // Replace with your actual PayPal Client ID
@@ -134,6 +134,7 @@ $paypalClientId = 'ATxEnEoBxidA9z9SK_J_8SkR5rjcvWhFg-kmtSbaV7Ir44waIVtQ141SG-hIt
         <div class="col-md-6">
             <h2 id="addressNotify">Select Address before Payment</h2>
             <div id="addressDisplay" class="address-display" style="margin-bottom: 20pt"></div>
+            <h5 id="totalPrice" style="margin-bottom: 20pt;visibility: hidden">Total: $<?= $total_amount ?></h5>
             <div id="paypal-button-container"></div>
         </div>
     </div>
