@@ -32,12 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const productId = this.getAttribute('data-id');
             const quantity = parseInt(quantityInput.value) + 1; // Increment the quantity
             quantityInput.value = quantity; // Update the input field with new quantity
-
-            if (!isLoggedIn) {
-                window.location.href = '/php/login.php'; // Redirect to login if not logged in
-            } else {
-                updateCart("update",productId, quantity);
-            }
+            updateCart("update",productId, quantity);
         });
     });
 
@@ -48,12 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const productId = this.getAttribute('data-id');
             const quantity = parseInt(quantityInput.value) - 1; // decrement the quantity
             quantityInput.value = quantity; // Update the input field with new quantity
-
-            if (!isLoggedIn) {
-                window.location.href = '/php/login.php'; // Redirect to login if not logged in
-            } else {
-                updateCart("update",productId, quantity);
-            }
+            updateCart("update",productId, quantity);
         });
     });
 
@@ -64,12 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const productId = this.getAttribute('data-id');
             const quantity = parseInt(quantityInput.value);
             quantityInput.value = quantity; // Update the input field with new quantity
-
-            if (!isLoggedIn) {
-                window.location.href = '/php/login.php'; // Redirect to login if not logged in
-            } else {
-                updateCart("delete",productId, quantity);
-            }
+            updateCart("delete",productId, quantity);
         });
     });
 });

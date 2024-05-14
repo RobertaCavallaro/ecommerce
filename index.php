@@ -22,6 +22,7 @@ if (isset($_COOKIE['userd_id'])) {
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" href="css/style.css"> <!-- Link to your custom CSS file -->
+    <link rel="icon" href="/images/trekking_tale.webp" type="image/x-icon">
   <script src="/js/index.js"></script>
 
 
@@ -30,53 +31,66 @@ if (isset($_COOKIE['userd_id'])) {
 
 <body>
 
-
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">TrekkingTale</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="container">
+          <a href="#">
+              <img src="/images/trekking_tale.webp" alt="TrekkingTale Logo" style="height: 50px; margin-right: 10px">
+          </a>
+          <a class="navbar-brand" href="#">TrekkingTale</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#products">Shop Gear</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#planYourTrek">Plan your trek</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#contactModal">Contact</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
-          <li class="nav-item">
-            <a class="nav-link" href="php/view_cart.php"><i class="fas fa-shopping-cart" style="font-size: x-large;">
-                <span id="cartItemCount">0</span></i></a>
-          </li>
-          <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
-            <li class="nav-item">
-              <a type="button" class="  nav-link" data-toggle="modal" data-target="#loginModal"> Login </a>
-            </li>
-          <?php else: ?>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Hello, <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-              <!-- Display user's name -->
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="php/logout.php">Logout</a> <!-- Logout button -->
-            </li>
-          <?php endif; ?>
-        </ul>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="#products">Shop All Gear</a>
+                  </li>
+                  <!-- Seasons Dropdown Menu -->
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Shop By Seasons
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" data-season="summer" >Summer</a>
+                          <a class="dropdown-item" data-season="autumn" >Autumn</a>
+                          <a class="dropdown-item" data-season="winter" >Winter</a>
+                          <a class="dropdown-item" data-season="spring" >Spring</a>
+                      </div>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="#" data-toggle="modal" data-target="#contactModal">Contact</a>
+                  </li>
+              </ul>
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link cart-button-index" href="php/view_cart.php"><i class="fas fa-shopping-cart" style="font-size: x-large;">
+                              <span id="cartItemCount">0</span></i></a>
+                  </li>
+                  <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
+                      <li class="nav-item" style="display: none">
+                          <a type="button" class="nav-link" data-toggle="modal" data-target="#loginModal"> Login </a>
+                      </li>
+                  <?php else: ?>
+                      <li class="nav-item">
+                          <a class="nav-link" href="#">Hello, <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                          <!-- Display user's name -->
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="php/logout.php">Logout</a>
+                          <!-- Logout button -->
+                      </li>
+                  <?php endif; ?>
+              </ul>
+          </div>
       </div>
-    </div>
   </nav>
+
 
   <!-- Hero Section -->
   <section class="jumbotron text-center"
@@ -93,28 +107,6 @@ if (isset($_COOKIE['userd_id'])) {
   <div class="discount-bar bg-warning text-center py-2" style="margin-top: -32px;">
     <p class="mb-0">Get 20% discount on orders over $40!</p>
   </div>
-  <!-- Season Images Section -->
-  <div id="planYourTrek" class="foto row">
-    <div class="col-md-3 season-image" data-season="spring">
-      <img src="images/spring.jpg" alt="Spring" class="img-fluid clickable">
-      <p class="season-text">Spring</p>
-    </div>
-    <div class="col-md-3 season-image" data-season="summer">
-      <img src="images/summer.jpg" alt="Summer" class="img-fluid clickable">
-      <p class="season-text">Summer</p>
-    </div>
-    <div class="col-md-3 season-image" data-season="autumn">
-      <img src="images/fall.jpg" alt="Autumn" class="img-fluid clickable">
-      <p class="season-text">Autumn</p>
-    </div>
-    <div class="col-md-3 season-image" data-season="winter">
-      <img src="images/winter.jpg" alt="Winter" class="img-fluid clickable">
-      <p class="season-text">Winter</p>
-    </div>
-  </div>
-
-
-
 
   <!-- Login Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
@@ -141,14 +133,13 @@ if (isset($_COOKIE['userd_id'])) {
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="aboutModalLabel">About Us</h5>
+          <h5 class="modal-title" id="aboutModalLabel">About Our Company</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <h2>About Our Company</h2>
-          <p>This is the About page content. Our company has been leading the industry for over 20 years, providing
+          <p>Our company has been leading the industry for over 20 years, providing
             high-quality services to our customers. Learn more about our mission, vision, and the values that drive our
             organization forward.</p>
         </div>
@@ -283,7 +274,7 @@ if (isset($_COOKIE['userd_id'])) {
       }
       ?>
     </div>
-
+  </section>
     <!-- Footer -->
     <footer class="footer mt-auto py-3">
       <div class="container">

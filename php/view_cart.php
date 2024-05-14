@@ -39,6 +39,7 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/js/cart.js"></script>
+    <link rel="icon" href="/images/trekking_tale.webp" type="image/x-icon">
 
 </head>
 
@@ -46,6 +47,9 @@ $conn->close();
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
+            <a href="../index.php">
+                <img src="/images/trekking_tale.webp" alt="TrekkingTale Logo" style="height: 50px; margin-right: 10px">
+            </a>
             <a class="navbar-brand" href="../index.php">TrekkingTale</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +59,7 @@ $conn->close();
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="../index.php">Shop Gear</a>
+                        <a class="nav-link" href="../index.php">Shop All Gear</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
@@ -86,7 +90,7 @@ $conn->close();
                 </div>
                 <div class="modal-body">
                     <!-- Iframe to load login.php -->
-                    <iframe src="checkout.php" frameborder="0" style="width:100%; height:400px;"></iframe>
+                    <iframe src="checkout.php" frameborder="0" style="width:100%; height:700px;"></iframe>
                 </div>
             </div>
         </div>

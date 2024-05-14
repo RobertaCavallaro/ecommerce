@@ -89,10 +89,10 @@ $paypalClientId = 'ATxEnEoBxidA9z9SK_J_8SkR5rjcvWhFg-kmtSbaV7Ir44waIVtQ141SG-hIt
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Use this Address</button>
+                    <button type="submit" class="btn btn-primary address-btn">Use this Address</button>
                 </form>
             <?php endif; ?>
-            <form action="checkout.php" class="address-form" id="newAddressForm" method="post">
+            <form class="address-form" id="newAddressForm">
                 <label for="select-address" style="margin-bottom: 20px">OR save a new address:</label>
                 <input type="hidden" name="new_address" value="1">
                 <div class="form-group">
@@ -128,10 +128,11 @@ $paypalClientId = 'ATxEnEoBxidA9z9SK_J_8SkR5rjcvWhFg-kmtSbaV7Ir44waIVtQ141SG-hIt
                         <!-- Add more countries as needed -->
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary">Save New Address</button>
+                <button type="submit" class="btn btn-primary address-btn">Save New Address</button>
             </form>
         </div>
         <div class="col-md-6">
+            <input type="hidden" id="totalAmount" value="<?= $total_amount ?>">
             <h2 id="addressNotify">Select Address before Payment</h2>
             <div id="addressDisplay" class="address-display" style="margin-bottom: 20pt"></div>
             <h5 id="totalPrice" style="margin-bottom: 20pt;visibility: hidden">Total: $<?= $total_amount ?></h5>

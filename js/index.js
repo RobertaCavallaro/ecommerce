@@ -34,13 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         let searchValue = searchInput.value.toLowerCase();
         let hasMatch = false;
+
+        // Update the URL with the search term
+        window.history.pushState({ path: `?search=${searchValue}` }, '', `?search=${searchValue}`);
+
         // Hide all rows and columns initially
         const rows = document.querySelectorAll('.product-row'); // Assuming your products are wrapped in elements with class 'product-row'
         const container = document.getElementById('products');
         container.innerHTML = ''; // Clear the existing content.
         let newRow = createRow(); // Create the first row.
         container.appendChild(newRow);
-        let index=0;
+        let index = 0;
 
         productCards.forEach(card => {
             const name = card.getAttribute('data-name').toLowerCase();
@@ -52,9 +56,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 const column = createColumn(); // Create a new column for each card.
                 column.appendChild(card);
-                newRow.appendChild(column);// Show the row of the matching card
+                newRow.appendChild(column); // Show the row of the matching card
                 hasMatch = true;
-                index +=1;
+                index += 1;
             }
         });
         if (hasMatch) {
@@ -63,6 +67,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 behavior: 'smooth'
             });
         }
+    });
+
+    // Function to perform search and update UI
+    function performSearch(searchValue) {
+        let hasMatch = false;
+        const container = document.getElementById('products');
+        container.innerHTML = ''; // Clear the existing content.
+        let newRow = createRow(); // Create the first row.
+        container.appendChild(newRow);
+        let index = 0;
+
+        productCards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            const description = card.getAttribute('data-description').toLowerCase();
+            if (name.includes(searchValue) || description.includes(searchValue)) {
+                if (index % 3 === 0 && index !== 0) { // Every 3 cards, start a new row.
+                    newRow = createRow();
+                    container.appendChild(newRow);
+                }
+                const column = createColumn(); // Create a new column for each card.
+                column.appendChild(card);
+                newRow.appendChild(column); // Show the row of the matching card
+                hasMatch = true;
+                index += 1;
+            }
+        });
+        if (hasMatch) {
+            window.scrollTo({
+                top: productSection.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    // Handle search from URL on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+    if (searchQuery) {
+        performSearch(searchQuery);
+    }
+
+    // Add event listener to search button
+    searchButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        let searchValue = searchInput.value.toLowerCase();
+        window.history.pushState({ path: `?search=${searchValue}` }, '', `?search=${searchValue}`);
+        performSearch(searchValue);
     });
 
     function rearrangeProducts() {
@@ -167,23 +218,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listener to update display on slider change
     priceRange.addEventListener('input', updatePriceDisplay);
 
-    // Season images clickable
-    document.querySelectorAll('.season-image').forEach(imageDiv => {
-        imageDiv.addEventListener('click', function() {
-            const clickedSeason = this.getAttribute('data-season');
-            const allSeasons = ['summer', 'spring', 'autumn', 'winter']; // List all possible seasons
+    // Add click event listeners to dropdown items
+    document.querySelectorAll('#navbarDropdownMenuLink + .dropdown-menu a').forEach(item => {
+        item.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
 
-            allSeasons.forEach(season => {
-                const checkbox = document.getElementById(season);
-                if (checkbox) {
-                    checkbox.checked = (season === clickedSeason); // Check only the clicked season, uncheck others
-                }
-            });
+            const season = this.getAttribute('data-season'); // Get the season from data attribute
+            window.history.pushState({ season }, '', `?season=${season}`); // Update URL without reloading
 
-            // Automatically click the apply filters button to update the results
-            document.getElementById('apply-filters').click();
+            filterProductsBySeason(season); // Filter the products on the page
         });
     });
+    function filterProductsBySeason(clickedSeason) {
+        const allSeasons = ['summer', 'spring', 'autumn', 'winter']; // List all possible seasons
+
+        allSeasons.forEach(season => {
+            const checkbox = document.getElementById(season);
+            if (checkbox) {
+                checkbox.checked = (season === clickedSeason); // Check only the clicked season, uncheck others
+            }
+        });
+
+        // Automatically click the apply filters button to update the results
+        document.getElementById('apply-filters').click();
+        window.scrollTo({
+            top: productSection.offsetTop,
+            behavior: 'smooth'
+        });
+    }
+
+    // Ensure that the URL season is respected on page load
+    window.onload = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const season = urlParams.get('season');
+        if (season) {
+            filterProductsBySeason(season);
+        }
+    }
+
     const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
     addToCartButtons.forEach(button => {
         button.addEventListener('click', function(event) {
@@ -220,6 +292,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Code to display your login modal
         $('#loginModal').modal('show'); // Example using Bootstrap modal
     }
+
+    // Select the cart link by its class or directly the icon
+    const cartLink = document.querySelector('.cart-button-index');
+
+    cartLink.addEventListener('click', function(event) {
+        const itemCount = parseInt(document.getElementById('cartItemCount').textContent, 10); // Get the current item count
+        if (itemCount === 0) {
+            event.preventDefault(); // Prevent the link from navigating
+            alert('Your cart is empty!'); // Show an alert message
+        }
+        // If itemCount is not 0, the default link behavior continues, and it navigates to view_cart.php
+    });
 });
 
 

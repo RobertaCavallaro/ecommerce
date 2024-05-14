@@ -66,7 +66,7 @@ function createOrdersTable($conn)
             customer_id VARCHAR(255) NOT NULL,
             order_date DATETIME NOT NULL,
             total_amount DECIMAL(10,2) NOT NULL,
-            payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+            payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending'
             )";
     // ... (more fields for shipping, billing, etc.)
 
@@ -89,7 +89,7 @@ function createAddressTable($conn)
                 city VARCHAR(100) NOT NULL,
                 state VARCHAR(100) NOT NULL,
                 zip_code INT(11) NOT NULL,
-                country VARCHAR(100) NOT NULL,
+                country VARCHAR(100) NOT NULL
             )";
     // ... (more fields for shipping, billing, etc.)
 
