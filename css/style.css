@@ -403,3 +403,14 @@ button {
   font-weight: bold; /* Make it bold */
 }
 
+/* Sticky class to fix the position */
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0; /* Ensures it aligns to the left */
+  right: 0; /* Ensures it spans across the width if needed */
+  z-index: 1000; /* Higher index to keep it on top */
+  background-color: white; /* Optional for visibility */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional for styling */
+}
+
