@@ -1,6 +1,14 @@
 <?php
 include 'php/table_initialize.php';
-session_start();
+if (isset($_COOKIE['userd_id'])) {
+  session_id($_COOKIE['userd_id']);
+  session_start();
+  $_SESSION['user_id'] = $_COOKIE['userd_id'];
+} else {
+  session_start();
+  setcookie("userd_id", session_id(), time() + (86400 * 30), "/");
+  $_SESSION['user_id'] = $_COOKIE['userd_id'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,12 +57,12 @@ session_start();
         </ul>
         <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
           <li class="nav-item">
-            <a class="nav-link" href="php/view_cart.php"><i class="fas fa-shopping-cart" style="font-size: x-large;"> <span
-                  id="cartItemCount">0</span></i></a>
+            <a class="nav-link" href="php/view_cart.php"><i class="fas fa-shopping-cart" style="font-size: x-large;">
+                <span id="cartItemCount">0</span></i></a>
           </li>
           <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
             <li class="nav-item">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal"> Login </button>
+              <a type="button" class="  nav-link" data-toggle="modal" data-target="#loginModal"> Login </a>
             </li>
           <?php else: ?>
             <li class="nav-item">
@@ -87,22 +95,22 @@ session_start();
   </div>
   <!-- Season Images Section -->
   <div id="planYourTrek" class="foto row">
-      <div class="col-md-3 season-image" data-season="spring">
-          <img src="images/spring.jpg" alt="Spring" class="img-fluid clickable">
-          <p class="season-text">Spring</p>
-      </div>
-      <div class="col-md-3 season-image" data-season="summer">
-          <img src="images/summer.jpg" alt="Summer" class="img-fluid clickable">
-          <p class="season-text">Summer</p>
-      </div>
-      <div class="col-md-3 season-image" data-season="autumn">
-          <img src="images/fall.jpg" alt="Autumn" class="img-fluid clickable">
-          <p class="season-text">Autumn</p>
-      </div>
-      <div class="col-md-3 season-image" data-season="winter">
-          <img src="images/winter.jpg" alt="Winter" class="img-fluid clickable">
-          <p class="season-text">Winter</p>
-      </div>
+    <div class="col-md-3 season-image" data-season="spring">
+      <img src="images/spring.jpg" alt="Spring" class="img-fluid clickable">
+      <p class="season-text">Spring</p>
+    </div>
+    <div class="col-md-3 season-image" data-season="summer">
+      <img src="images/summer.jpg" alt="Summer" class="img-fluid clickable">
+      <p class="season-text">Summer</p>
+    </div>
+    <div class="col-md-3 season-image" data-season="autumn">
+      <img src="images/fall.jpg" alt="Autumn" class="img-fluid clickable">
+      <p class="season-text">Autumn</p>
+    </div>
+    <div class="col-md-3 season-image" data-season="winter">
+      <img src="images/winter.jpg" alt="Winter" class="img-fluid clickable">
+      <p class="season-text">Winter</p>
+    </div>
   </div>
 
 
@@ -214,144 +222,133 @@ session_start();
             <label class="form-check-label" for="winter">Winter</label>
           </div>
         </div>
-          Copied!
-          <!-- Price Range -->
-          <div class="form-group">
-              <label for="price-range">Price Range:</label><br>
-              <input type="range" class="form-control-range" id="price-range" min="40" max="400" value="150">
-              <span>$10</span>
-              <span style="float: right;">$400</span>
-              <!-- Price Display -->
-              <span id="price-display" style="padding-left: 30%">$150</span> <!-- Added element to display the slider value -->
-          </div>
+        Copied!
+        <!-- Price Range -->
+        <div class="form-group">
+          <label for="price-range">Price Range:</label><br>
+          <input type="range" class="form-control-range" id="price-range" min="40" max="400" value="150">
+          <span>$10</span>
+          <span style="float: right;">$400</span>
+          <!-- Price Display -->
+          <span id="price-display" style="padding-left: 30%">$150</span>
+          <!-- Added element to display the slider value -->
+        </div>
         <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
       </div>
     </aside>
 
-      <!-- Products Section -->
-      <div id="products" class="col-md-9">
-          <?php
-          $conn = new mysqli($servername, $username, $password, $dbname, $port);
-          $query = "SELECT * FROM products";
-          $result = $conn->query($query);
+    <!-- Products Section -->
+    <div id="products" class="col-md-9">
+      <?php
+      $conn = new mysqli($servername, $username, $password, $dbname, $port);
+      $query = "SELECT * FROM products";
+      $result = $conn->query($query);
 
-          if ($result->num_rows > 0) {
-              $counter = 0; // Initialize a counter
-              echo '<div class="row product-row">'; // Start the first row
+      if ($result->num_rows > 0) {
+        $counter = 0; // Initialize a counter
+        echo '<div class="row product-row">'; // Start the first row
 
-              while ($row = $result->fetch_assoc()) {
-                  if ($counter % 3 == 0 && $counter != 0) {
-                      echo '</div><div class="row product-row">'; // Close the current row and start a new one every 3 products
-                  }
-
-                  echo '<div class="col-md-4 mb-4 product-column">'; // Each product occupies one third of the row
-                  echo '<div class="card product-card" data-name="'
-                      .$row['name'].'" data-description="' .$row['description'].
-                      '" data-season="' .$row['season'].'" data-gender="' .$row['gender'].'"
-                      data-price="' .$row['price'].'" data-product-id="' .$row['product_id'].'">';
-                  echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="' . $row['name'] . '">';
-                  echo '<div class="card-body">';
-                  echo '<h5 class="card-title">' . $row['name'] . '</h5>';
-                  echo '<p class="card-text">Price: $' . $row['price'] . '</p>';
-                  echo '<p class="card-text">Quantity:';
-                  echo '<div class="quantity-input d-flex">';
-                  echo '<button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>';
-                  echo '<input type="text" class="form-control quantity" value="1">';
-                  echo '<button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>';
-                  echo '</div>';
-                  echo '</p>';
-                  echo '<a href="#" class="btn btn-primary add-to-cart-btn">Add to Cart</a>';
-                  echo '</div>'; // Close card-body
-                  echo '</div>'; // Close card
-                  echo '</div>'; // Close col-md-4
-
-                  $counter++; // Increment the counter
-              }
-
-              echo '</div>'; // Close the last row
-          } else {
-              echo "No products found!";
+        while ($row = $result->fetch_assoc()) {
+          if ($counter % 3 == 0 && $counter != 0) {
+            echo '</div><div class="row product-row">'; // Close the current row and start a new one every 3 products
           }
-          ?>
-      </div>
 
-  <!-- Load More Button -->
-  <div class="button-container">
-    <button class="btn btn-primary load-more" id="load-more">Load More</button>
-  </div>
+          echo '<div class="col-md-4 mb-4 product-column">'; // Each product occupies one third of the row
+          echo '<div class="card product-card" data-name="'
+            . $row['name'] . '" data-description="' . $row['description'] .
+            '" data-season="' . $row['season'] . '" data-gender="' . $row['gender'] . '"
+                      data-price="' . $row['price'] . '" data-product-id="' . $row['product_id'] . '">';
+          echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="' . $row['name'] . '">';
+          echo '<div class="card-body">';
+          echo '<h5 class="card-title">' . $row['name'] . '</h5>';
+          echo '<p class="card-text">Price: $' . $row['price'] . '</p>';
+          echo '<p class="card-text">Quantity:';
+          echo '<div class="quantity-input d-flex">';
+          echo '<button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>';
+          echo '<input type="text" class="form-control quantity" value="1">';
+          echo '<button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>';
+          echo '</div>';
+          echo '</p>';
+          echo '<a href="#" class="btn btn-primary add-to-cart-btn">Add to Cart</a>';
+          echo '</div>'; // Close card-body
+          echo '</div>'; // Close card
+          echo '</div>'; // Close col-md-4
 
+          $counter++; // Increment the counter
+        }
 
+        echo '</div>'; // Close the last row
+      } else {
+        echo "No products found!";
+      }
+      ?>
+    </div>
 
-
-
-
-
-
-  <!-- Footer -->
-  <footer class="footer mt-auto py-3">
-    <div class="container">
-      <div class="row">
-        <!-- Contact Info -->
-        <div class="col-md-4">
-          <h5>Contact Info</h5>
-          <p><strong>Phone:</strong> 618294052</p>
-          <p><strong>Address:</strong> Lorem Ipsum</p>
-          <p><strong>Hours:</strong> 8 am to 10 pm</p>
-        </div>
-        <!-- Sales & Discount Section -->
-        <div class="col-md-4">
-          <h5>Sales & Discount</h5>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-decoration-none">Coupons</a></li>
-            <li><a href="#" class="text-decoration-none">Free Delivery</a></li>
-          </ul>
-        </div>
-        <!-- Orders Section -->
-        <div class="col-md-4">
-          <h5>Orders</h5>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-decoration-none">Order Status</a></li>
-            <li><a href="#" class="text-decoration-none">Returns</a></li>
-            <li><a href="#" class="text-decoration-none">eGift Cards</a></li>
-            <li><a href="#" class="text-decoration-none">Shipping</a></li>
-            <li><a href="#" class="text-decoration-none">Order FAQs</a></li>
-          </ul>
-        </div>
-      </div>
-      <hr>
-      <!-- Sign Up for Email -->
-      <div class="row">
-        <div class="col-md-6">
-          <h5>Sign Up for Email</h5>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email"
-              aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Sign Up</button>
-            </div>
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3">
+      <div class="container">
+        <div class="row">
+          <!-- Contact Info -->
+          <div class="col-md-4">
+            <h5>Contact Info</h5>
+            <p><strong>Phone:</strong> 618294052</p>
+            <p><strong>Address:</strong> Lorem Ipsum</p>
+            <p><strong>Hours:</strong> 8 am to 10 pm</p>
+          </div>
+          <!-- Sales & Discount Section -->
+          <div class="col-md-4">
+            <h5>Sales & Discount</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-decoration-none">Coupons</a></li>
+              <li><a href="#" class="text-decoration-none">Free Delivery</a></li>
+            </ul>
+          </div>
+          <!-- Orders Section -->
+          <div class="col-md-4">
+            <h5>Orders</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-decoration-none">Order Status</a></li>
+              <li><a href="#" class="text-decoration-none">Returns</a></li>
+              <li><a href="#" class="text-decoration-none">eGift Cards</a></li>
+              <li><a href="#" class="text-decoration-none">Shipping</a></li>
+              <li><a href="#" class="text-decoration-none">Order FAQs</a></li>
+            </ul>
           </div>
         </div>
-        <!-- Social Media Icons -->
-        <div class="col-md-6">
-          <h5>Follow Us</h5>
-          <ul class="list-inline">
-            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-          </ul>
+        <hr>
+        <!-- Sign Up for Email -->
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Sign Up for Email</h5>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="Enter your email" aria-label="Email"
+                aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Sign Up</button>
+              </div>
+            </div>
+          </div>
+          <!-- Social Media Icons -->
+          <div class="col-md-6">
+            <h5>Follow Us</h5>
+            <ul class="list-inline">
+              <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+              <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
+              <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
 
-  <!-- Bootstrap JS and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script>
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
       var isLoggedIn = <?php echo isset($_SESSION['loggedin']) && $_SESSION['loggedin'] ? 'true' : 'false'; ?>;
-  </script>
+    </script>
 </body>
 
 </html>

@@ -207,6 +207,7 @@ font-weight: bold;
   width: 100%; /* Makes the button full width */
   padding: 10px; /* Larger click area and better visual */
 }
+
 textarea {
   resize: none; /* Prevents resizing the textarea */
 }

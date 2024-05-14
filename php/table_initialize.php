@@ -25,11 +25,10 @@ function createCartTable($conn)
 {
     $sql = "CREATE TABLE IF NOT EXISTS cart (
             cart_id INT AUTO_INCREMENT PRIMARY KEY,
-            customer_id INT NOT NULL,
+            customer_id VARCHAR(255) NOT NULL,
             product_id INT NOT NULL,
             quantity INT NOT NULL DEFAULT 1,
             added_on DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
             FOREIGN KEY (product_id) REFERENCES products(product_id)
             )";
 
@@ -44,7 +43,7 @@ function createCartTable($conn)
 function createCustomersTable($conn)
 {
     $sql = "CREATE TABLE IF NOT EXISTS customers (
-            customer_id INT AUTO_INCREMENT PRIMARY KEY,
+            customer_id VARCHAR(255) PRIMARY KEY,
             first_name VARCHAR(255) NOT NULL,
             last_name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
@@ -64,15 +63,12 @@ function createOrdersTable($conn)
 {
     $sql = "CREATE TABLE IF NOT EXISTS orders (
             order_id INT AUTO_INCREMENT PRIMARY KEY,
-            customer_id INT NOT NULL,
+            customer_id VARCHAR(255) NOT NULL,
             order_date DATETIME NOT NULL,
             total_amount DECIMAL(10,2) NOT NULL,
-            payment_status ENUM('Pending', 'Completed', 'Failed') DEFAULT 'Pending',
-            order_status ENUM('Pending', 'Processing', 'Paid', 'Shipped', 'Delivered', 
-            'Completed','Cancelled', 'Refunded', 'Failed', 'On Hold', 'Returned') DEFAULT 'Processing',
-            FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+            payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
             )";
-// ... (more fields for shipping, billing, etc.)
+    // ... (more fields for shipping, billing, etc.)
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>console.log('Orders table created successfully');</script>";
@@ -80,12 +76,13 @@ function createOrdersTable($conn)
         echo "<script>console.log('Error creating Orders table: $conn->error .');</script>";
     }
 
-}function createAddressTable($conn)
+}
+function createAddressTable($conn)
 {
     $sql = "
             CREATE TABLE IF NOT EXISTS addresses (
                 id INT(11) AUTO_INCREMENT PRIMARY KEY,
-                customer_id INT(11) NOT NULL,
+                customer_id VARCHAR(255) NOT NULL,
                 fullname VARCHAR(255) NOT NULL,
                 address_line1 VARCHAR(255) NOT NULL,
                 address_line2 VARCHAR(255),
@@ -93,9 +90,8 @@ function createOrdersTable($conn)
                 state VARCHAR(100) NOT NULL,
                 zip_code INT(11) NOT NULL,
                 country VARCHAR(100) NOT NULL,
-                FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
             )";
-// ... (more fields for shipping, billing, etc.)
+    // ... (more fields for shipping, billing, etc.)
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>console.log('Address table created successfully');</script>";
@@ -115,7 +111,7 @@ function createOrderItems($conn)
             FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
             FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
         )";
-// ... (more fields for shipping, billing, etc.)
+    // ... (more fields for shipping, billing, etc.)
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>console.log('Orders Items table created successfully');</script>";
@@ -126,13 +122,13 @@ function createOrderItems($conn)
 
 function createProducts($conn)
 {
-// Check if the products table is empty
+    // Check if the products table is empty
     $checkQuery = "SELECT COUNT(*) as count FROM products";
     $checkResult = $conn->query($checkQuery);
     $row = $checkResult->fetch_assoc();
 
     if ($row['count'] == 0) {
-// Prepare SQL to insert multiple products
+        // Prepare SQL to insert multiple products
         $sql = "INSERT INTO products (name, description, price, image_url, stock, season, gender) VALUES
                 ('Trekking Backpack', 'A durable and spacious backpack ideal for long treks.', 99.99, 'images/backpack.jpg', 10, 'autumn', 'unisex'),
                 ('Hiking Boots', 'Waterproof and sturdy boots for all terrains.', 149.99, 'images/boots.jpg', 10, 'autumn', 'unisex'),

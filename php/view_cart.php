@@ -21,8 +21,8 @@ while ($row = $result->fetch_assoc()) {
 }
 $_SESSION['total_amount'] = $totalPrice;
 $result->data_seek(0);
-$conn -> close();
-//?>
+$conn->close();
+// ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,90 +43,87 @@ $conn -> close();
 </head>
 
 <body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-        <a class="navbar-brand" href="../index.php">TrekkingTale</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="../index.php">TrekkingTale</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="../index.php">Shop Gear</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
-                <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="index.php"> Login </button>
+                        <a class="nav-link" href="../index.php">Shop Gear</a>
                     </li>
-                <?php else: ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Hello, <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
-                        <!-- Display user's name -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a> <!-- Logout button -->
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- Checkout Modal -->
-<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Iframe to load login.php -->
-                <iframe src="checkout.php" frameborder="0" style="width:100%; height:400px;"></iframe>
+                </ul>
+                <ul class="navbar-nav ml-auto"> <!-- Adjusted to ml-auto for alignment to the right -->
+                    <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Hello, <?php echo htmlspecialchars($_SESSION['user_name']); ?></a>
+                            <!-- Display user's name -->
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a> <!-- Logout button -->
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="cart-container">
-    <?php while ($row = $result->fetch_assoc()): ?>
-        <div class="cart-item">
-            <img src="/<?= htmlspecialchars($row['image_url']) ?>" alt="<?= htmlspecialchars($row['name']) ?>">
-            <div class="details">
-                <h3><?= htmlspecialchars($row['name']) ?></h3>
-                <p><?= htmlspecialchars($row['description']) ?></p>
-                <p>Price: $<?= number_format($row['price'], 2) ?></p>
-                <!-- Quantity controls -->
-                <div class="quantity-controls">
-                    <button class="minus-btn" data-id="<?= $row['product_id'] ?>">-</button>
-                    <input type="text" class="quantity" value="<?= htmlspecialchars($row['quantity']) ?>">
-                    <button class="plus-btn" data-id="<?= $row['product_id'] ?>">+</button>
+    </nav>
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <p>Subtotal: $<?= number_format($row['quantity'] * $row['price'], 2) ?></p>
-                <!-- Delete item button -->
-                <button class="delete-btn" data-id="<?= $row['product_id'] ?>">Delete Item</button>
+                <div class="modal-body">
+                    <!-- Iframe to load login.php -->
+                    <iframe src="checkout.php" frameborder="0" style="width:100%; height:400px;"></iframe>
+                </div>
             </div>
         </div>
-
-    <?php endwhile; ?>
-
-    <div class="total-and-checkout">
-        <button data-toggle="modal" data-target="#checkoutModal"
-                class="btn btn-success">Order Now</button>
-        <span class="total-price">Total: $<?= number_format($totalPrice, 2) ?></span>
     </div>
 
-    <script>
-        var isLoggedIn = <?php echo isset($_SESSION['loggedin']) && $_SESSION['loggedin'] ? 'true' : 'false'; ?>;
-    </script>
+    <div class="cart-container">
+        <?php while ($row = $result->fetch_assoc()): ?>
+            <div class="cart-item">
+                <img src="/<?= htmlspecialchars($row['image_url']) ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+                <div class="details">
+                    <h3><?= htmlspecialchars($row['name']) ?></h3>
+                    <p><?= htmlspecialchars($row['description']) ?></p>
+                    <p>Price: $<?= number_format($row['price'], 2) ?></p>
+                    <!-- Quantity controls -->
+                    <div class="quantity-controls">
+                        <button class="minus-btn" data-id="<?= $row['product_id'] ?>">-</button>
+                        <input type="text" class="quantity" value="<?= htmlspecialchars($row['quantity']) ?>">
+                        <button class="plus-btn" data-id="<?= $row['product_id'] ?>">+</button>
+                    </div>
+                    <p>Subtotal: $<?= number_format($row['quantity'] * $row['price'], 2) ?></p>
+                    <!-- Delete item button -->
+                    <button class="delete-btn" data-id="<?= $row['product_id'] ?>">Delete Item</button>
+                </div>
+            </div>
+
+        <?php endwhile; ?>
+
+        <div class="total-and-checkout">
+            <button data-toggle="modal" data-target="#checkoutModal" class="btn btn-success">Order Now</button>
+            <span class="total-price">Total: $<?= number_format($totalPrice, 2) ?></span>
+        </div>
+
+        <script>
+            var isLoggedIn = <?php echo isset($_SESSION['loggedin']) && $_SESSION['loggedin'] ? 'true' : 'false'; ?>;
+        </script>
 
 </body>
+
 </html>
 <?php //$stmt->close(); ?>

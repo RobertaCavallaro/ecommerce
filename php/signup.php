@@ -16,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   // Prepare an insert statement
-  $sql = "INSERT INTO customers (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
+  $sql = "INSERT INTO customers (customer_id, first_name, last_name, email, password) VALUES (? ,?, ?, ?, ?)";
 
   if ($stmt = $conn->prepare($sql)) {
     // Bind variables to the prepared statement as parameters
-    $stmt->bind_param("ssss", $firstname, $lastname, $email, $hashed_password);
+    $stmt->bind_param("sssss", $_COOKIE['userd_id'], $firstname, $lastname, $email, $hashed_password);
 
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
@@ -77,6 +77,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .form-signup input[type="text"],
     .form-signup input[type="password"] {
       margin-bottom: 10px;
+    }
+
+    .btn-primary {
+      background-color: rgb(208, 237, 211) !important;
+      color: black;
+      border-color: yellow !important;
     }
 
     .login-link {

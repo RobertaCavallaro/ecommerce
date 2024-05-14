@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
         input.value = newValue; // Set the new value in the input field
     }
 
-    if (isLoggedIn) {
-        fetchAndUpdateCartCount();
-    }
+
+    fetchAndUpdateCartCount();
+
 
     // Add event listeners to all + and - buttons
     document.querySelectorAll('.quantity-btn').forEach(button => {
@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let hasMatch = false;
         // Hide all rows and columns initially
         const rows = document.querySelectorAll('.product-row'); // Assuming your products are wrapped in elements with class 'product-row'
-        document.getElementById('load-more').style.display = 'none';
         const container = document.getElementById('products');
         container.innerHTML = ''; // Clear the existing content.
         let newRow = createRow(); // Create the first row.
@@ -188,10 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
     addToCartButtons.forEach(button => {
         button.addEventListener('click', function(event) {
-            if (!isLoggedIn) {
-                event.preventDefault();  // Prevent the cart operation
-                showLoginModal();        // Show login modal
-            } else {
                 // Proceed with adding to cart
                 const productId = this.parentElement.parentElement.getAttribute('data-product-id');
                 const quantity = this.parentElement.querySelector('.quantity').value; // This can be dynamic based on user input if needed
@@ -208,7 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         fetchAndUpdateCartCount();
                     })
                     .catch(error => console.error('Error:', error));
-            }
         });
     });
 

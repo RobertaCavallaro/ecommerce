@@ -82,6 +82,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       border-top-right-radius: 0;
     }
 
+    .btn-primary {
+      background-color: rgb(208, 237, 211) !important;
+      color: black;
+      border-color: yellow;
+    }
+
+
     .signup-link {
       text-align: center;
       margin-top: 10px;
