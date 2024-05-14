@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if (hasMatch) {
             window.scrollTo({
-                top: productSection.offsetTop,
+                top:window.innerHeight / 1.5,
                 behavior: 'smooth'
             });
         }
