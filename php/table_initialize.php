@@ -67,7 +67,9 @@ function createOrdersTable($conn)
             customer_id INT NOT NULL,
             order_date DATETIME NOT NULL,
             total_amount DECIMAL(10,2) NOT NULL,
-            payment_status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+            payment_status ENUM('Pending', 'Completed', 'Failed') DEFAULT 'Pending',
+            order_status ENUM('Pending', 'Processing', 'Paid', 'Shipped', 'Delivered', 
+            'Completed','Cancelled', 'Refunded', 'Failed', 'On Hold', 'Returned') DEFAULT 'Processing',
             FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
             )";
 // ... (more fields for shipping, billing, etc.)
