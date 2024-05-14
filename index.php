@@ -98,9 +98,8 @@ if (isset($_COOKIE['userd_id'])) {
 
     <div class="search-container" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);">
       <form class="form-inline">
-        <input id="custom-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search"
+        <input id="custom-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search Your Trekking Gear"
           aria-label="Search">
-        <button class="btn btn-warning my-2 my-sm-0" id="searchButton" type="submit">Search</button>
       </form>
     </div>
   </section>

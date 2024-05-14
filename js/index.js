@@ -30,15 +30,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnApplyFilters = document.getElementById('apply-filters');
     const cartItemCount = document.getElementById('cartItemCount');
 
-    searchButton.addEventListener('click', function(event) {
-        event.preventDefault();
+// Refactor the search logic into a function
+    function performSearch() {
         let searchValue = searchInput.value.toLowerCase();
         let hasMatch = false;
-
-        // Update the URL with the search term
-        window.history.pushState({ path: `?search=${searchValue}` }, '', `?search=${searchValue}`);
-
-        // Hide all rows and columns initially
         const rows = document.querySelectorAll('.product-row'); // Assuming your products are wrapped in elements with class 'product-row'
         const container = document.getElementById('products');
         container.innerHTML = ''; // Clear the existing content.
@@ -67,54 +62,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 behavior: 'smooth'
             });
         }
-    });
-
-    // Function to perform search and update UI
-    function performSearch(searchValue) {
-        let hasMatch = false;
-        const container = document.getElementById('products');
-        container.innerHTML = ''; // Clear the existing content.
-        let newRow = createRow(); // Create the first row.
-        container.appendChild(newRow);
-        let index = 0;
-
-        productCards.forEach(card => {
-            const name = card.getAttribute('data-name').toLowerCase();
-            const description = card.getAttribute('data-description').toLowerCase();
-            if (name.includes(searchValue) || description.includes(searchValue)) {
-                if (index % 3 === 0 && index !== 0) { // Every 3 cards, start a new row.
-                    newRow = createRow();
-                    container.appendChild(newRow);
-                }
-                const column = createColumn(); // Create a new column for each card.
-                column.appendChild(card);
-                newRow.appendChild(column); // Show the row of the matching card
-                hasMatch = true;
-                index += 1;
-            }
-        });
-        if (hasMatch) {
-            window.scrollTo({
-                top: productSection.offsetTop,
-                behavior: 'smooth'
-            });
-        }
     }
 
-    // Handle search from URL on page load
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchQuery = urlParams.get('search');
-    if (searchQuery) {
-        performSearch(searchQuery);
-    }
-
-    // Add event listener to search button
+    // Attach event listeners
+    searchInput.addEventListener('input', performSearch); // Search as you type
     searchButton.addEventListener('click', function(event) {
         event.preventDefault();
-        let searchValue = searchInput.value.toLowerCase();
-        window.history.pushState({ path: `?search=${searchValue}` }, '', `?search=${searchValue}`);
-        performSearch(searchValue);
+        performSearch();
     });
+
+    if (searchInput) {
+        const stickyOffset = searchInput.offsetTop; // Get the initial top offset of the search bar
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset >= stickyOffset) {
+                searchInput.classList.add('sticky');
+            } else {
+                searchInput.classList.remove('sticky');
+            }
+        });
+    } else {
+        console.error('Search input not found');
+    }
 
     function rearrangeProducts() {
         const container = document.getElementById('products'); // This is the main container where product rows are placed.
