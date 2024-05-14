@@ -100,7 +100,7 @@ if (isset($_COOKIE['userd_id'])) {
       <form class="form-inline">
         <input id="custom-search-bar" class="form-control mr-sm-2" type="search" placeholder="Search"
           aria-label="Search">
-        <button class="btn btn-warning my-2 my-sm-0" id="searchButton" type="submit">Search</button>
+        <button class="btn btn-warning my-2 my-sm-0" id="searchButton" type="submit" style="display: none">Search</button>
       </form>
     </div>
   </section>
