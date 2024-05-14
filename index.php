@@ -1,13 +1,15 @@
 <?php
 include 'php/table_initialize.php';
-if (isset($_COOKIE['userd_id'])) {
-  session_id($_COOKIE['userd_id']);
-  session_start();
-  $_SESSION['user_id'] = $_COOKIE['userd_id'];
+
+session_start();  // Start the session first
+
+// Check if the cookie with the correct name exists
+if (isset($_COOKIE['user_id'])) {
+    session_id($_COOKIE['user_id']);  // Set the session ID from the cookie
+    $_SESSION['user_id'] = $_COOKIE['user_id'];  // Set the session variable
 } else {
-  session_start();
-  setcookie("userd_id", session_id(), time() + (86400 * 30), "/");
-  $_SESSION['user_id'] = $_COOKIE['userd_id'];
+    setcookie("user_id", session_id(), time() + (86400 * 30), "/");  // Set the cookie
+    $_SESSION['user_id'] = session_id();  // Manually set the session variable since cookie won't be available yet
 }
 ?>
 
