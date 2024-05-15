@@ -200,7 +200,7 @@ if (isset($_COOKIE['user_id'])) {
         <h4>Filter Options</h4>
         <!-- Gender -->
         <div class="form-group">
-          <label for="gender">Gender:</label><br>
+            <br><label for="gender">Gender:</label>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" id="male">
             <label class="form-check-label" for="male">Male</label>
@@ -216,7 +216,7 @@ if (isset($_COOKIE['user_id'])) {
         </div>
         <!-- Season -->
         <div class="form-group">
-          <label for="season">Season:</label><br>
+            <br><label for="season">Season:</label>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" id="summer">
             <label class="form-check-label" for="summer">Summer</label>
@@ -234,67 +234,67 @@ if (isset($_COOKIE['user_id'])) {
             <label class="form-check-label" for="winter">Winter</label>
           </div>
         </div>
-        Copied!
-        <!-- Price Range -->
-        <div class="form-group">
-          <label for="price-range">Price Range:</label><br>
-          <input type="range" class="form-control-range" id="price-range" min="40" max="400" value="150">
-          <span>$10</span>
-          <span style="float: right;">$400</span>
-          <!-- Price Display -->
-          <span id="price-display" style="padding-left: 30%">$150</span>
-          <!-- Added element to display the slider value -->
-        </div>
+          <!-- Price Selector -->
+          <div class="form-group">
+              <label for="price-range">Price:</label>
+              <div class="price-controls">
+                  <div class="control-button" onclick="changePrice(-10)">-</div>
+                  <span id="price-display">$30</span>
+                  <div class="control-button" onclick="changePrice(10)">+</div>
+              </div>
+              <input type="hidden" id="price-range" value="30">
+          </div>
         <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
       </div>
     </aside>
 
     <!-- Products Section -->
     <div id="products" class="col-md-9">
-      <?php
-      $conn = new mysqli($servername, $username, $password, $dbname, $port);
-      $query = "SELECT * FROM products";
-      $result = $conn->query($query);
+        <?php
+        $conn = new mysqli($servername, $username, $password, $dbname, $port);
+        $query = "SELECT * FROM products";
+        $result = $conn->query($query);
 
-      if ($result->num_rows > 0) {
-        $counter = 0; // Initialize a counter
-        echo '<div class="row product-row">'; // Start the first row
+        if ($result->num_rows > 0) {
+            $counter = 0; // Initialize a counter
+            echo '<div class="row product-row">'; // Start the first row
 
-        while ($row = $result->fetch_assoc()) {
-          if ($counter % 3 == 0 && $counter != 0) {
-            echo '</div><div class="row product-row">'; // Close the current row and start a new one every 3 products
-          }
+            while ($row = $result->fetch_assoc()) {
+                if ($counter % 3 == 0 && $counter != 0) {
+                    echo '</div><div class="row product-row">'; // Close the current row and start a new one every 3 products
+                }
 
-          echo '<div class="col-md-4 mb-4 product-column">'; // Each product occupies one third of the row
-          echo '<div class="card product-card" data-name="'
-            . $row['name'] . '" data-description="' . $row['description'] .
-            '" data-season="' . $row['season'] . '" data-gender="' . $row['gender'] . '"
-                      data-price="' . $row['price'] . '" data-product-id="' . $row['product_id'] . '">';
-          echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="' . $row['name'] . '">';
-          echo '<div class="card-body">';
-          echo '<h5 class="card-title">' . $row['name'] . '</h5>';
-          echo '<p class="card-text">Price: $' . $row['price'] . '</p>';
-          echo '<p class="card-text">Quantity:';
-          echo '<div class="quantity-input d-flex">';
-          echo '<button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>';
-          echo '<input type="text" class="form-control quantity" value="1">';
-          echo '<button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>';
-          echo '</div>';
-          echo '</p>';
-          echo '<a href="#" class="btn btn-primary add-to-cart-btn">Add to Cart</a>';
-          echo '</div>'; // Close card-body
-          echo '</div>'; // Close card
-          echo '</div>'; // Close col-md-4
+                echo '<div class="col-md-4 mb-4 product-column">';
+                echo '<a href="php/product.php?product_id=' . $row['product_id'] . '" class="product-link">'; // Anchor tag to make the card clickable
+                echo '<div class="card product-card" data-name="'
+                    . $row['name'] . '" data-description="' . $row['description'] .
+                    '" data-season="' . $row['season'] . '" data-gender="' . $row['gender'] . '"
+                    data-price="' . $row['price'] . '" data-product-id="' . $row['product_id'] . '">';
+                echo '<img src="' . $row['image_url'] . '" class="card-img-top" alt="' . $row['name'] . '">';
+                echo '<div class="card-body">';
+                echo '<h5 class="card-title">' . $row['name'] . '</h5>';
+                echo '</a>'; // Close anchor tag
+                echo '<p class="card-text">Price: $' . $row['price'] . '</p>';
+                echo '<p class="card-text">Quantity:';
+                echo '<div class="quantity-input d-flex">';
+                echo '<button class="btn btn-sm btn-secondary quantity-btn minus-btn" type="button">-</button>';
+                echo '<input type="text" class="form-control quantity" value="1">';
+                echo '<button class="btn btn-sm btn-secondary quantity-btn plus-btn" type="button">+</button>';
+                echo '</div>';
+                echo '</p>';
+                echo '<a href="#" class="btn btn-primary add-to-cart-btn">Add to Cart</a>';
+                echo '</div>'; // Close card-body
+                echo '</div>'; // Close card
+                echo '</div>'; // Close col-md-4
 
-          $counter++; // Increment the counter
+                $counter++; // Increment the counter
+            }
+
+            echo '</div>'; // Close the last row
+        } else {
+            echo "No products found!";
         }
-
-        echo '</div>'; // Close the last row
-      } else {
-        echo "No products found!";
-      }
-      ?>
-    </div>
+        ?>
   </section>
     <!-- Footer -->
     <footer class="footer mt-auto py-3">
@@ -360,6 +360,20 @@ if (isset($_COOKIE['user_id'])) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
       var isLoggedIn = <?php echo isset($_SESSION['loggedin']) && $_SESSION['loggedin'] ? 'true' : 'false'; ?>;
+      // Price filter sidebar
+      const priceDisplay = document.getElementById("price-display");
+      const priceInput = document.getElementById("price-range");
+      const minValue = 10;
+      const maxValue = 300;
+
+      function changePrice(step) {
+          var currentPrice = parseInt(priceInput.value);
+          var newPrice = currentPrice + step;
+          if (newPrice >= minValue && newPrice <= maxValue) {
+              priceInput.value = newPrice;
+              priceDisplay.innerHTML = '$' + newPrice;
+          }
+      }
     </script>
 </body>
 

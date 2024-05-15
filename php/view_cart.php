@@ -99,7 +99,9 @@ $conn->close();
     <div class="cart-container">
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="cart-item">
+                <a href="product.php?product_id=<?= $row['product_id'] ?>" class="product-link">
                 <img src="/<?= htmlspecialchars($row['image_url']) ?>" alt="<?= htmlspecialchars($row['name']) ?>">
+                </a>
                 <div class="details">
                     <h3><?= htmlspecialchars($row['name']) ?></h3>
                     <p><?= htmlspecialchars($row['description']) ?></p>

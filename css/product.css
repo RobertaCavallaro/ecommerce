@@ -1,0 +1,113 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.product-column, .product-details {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    width: 50%;
+    margin: 20px;
+}
+.product-column:hover, .product-details:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+.card-body {
+    padding: 2px 16px;
+}
+.product-link {
+    text-decoration: none;
+    color: black;
+}
+.product-details {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    width: 80%; /* Adjusted width for better visibility */
+    background: white;
+    padding: 20px;
+    margin: 20px auto; /* Ensures the div is centered horizontally */
+}
+.product-details img {
+    width: 40%;
+    height: auto;
+    margin-top: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+strong {
+    color: #555; /* Slightly darker for emphasis */
+}
+
+p {
+    font-size: 1.1rem;
+    color: #666; /* Light color for regular text */
+    line-height: 1.6;
+}
+
+.product-details p.full-description {
+    max-width: 30%; /* Sets a maximum width */
+    margin: 0 auto; /* Centers the paragraph if the container is wider */
+    text-align: justify; /* Justifies the text */
+    hyphens: auto; /* Automatically adds hyphens where appropriate */
+}
+
+/* General paragraph styling for consistency */
+.product-details p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+    text-align: left; /* Default alignment for other paragraphs */
+    margin: 10px 0;
+}
+
+/* Specific styles for the paragraph with strong tag to avoid justification */
+.product-details p > strong {
+    text-align: left;
+    display: block; /* Makes the strong tag behave like a block element */
+}
+
+.quantity-controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-btn {
+    font-size: 1.2rem;
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #eee;
+    border: none;
+    cursor: pointer;
+}
+
+.quantity-btn:hover {
+    background-color: #ddd;
+}
+
+#productQuantity {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+}
+
+.btn {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    margin-top: 20px;
+    cursor: pointer;
+    width: 300px;
+    margin: 20px auto;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
