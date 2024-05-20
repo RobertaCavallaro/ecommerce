@@ -12,9 +12,9 @@ $user_id = $_SESSION['user_id'];
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
 // Fetch existing addresses
 $addresses = [];
-$sql = "SELECT * FROM addresses WHERE customer_id = ?";
+$sql = "SELECT * FROM addresses WHERE ? = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("ii", $user_id,$user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
